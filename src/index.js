@@ -15,7 +15,7 @@ import {
     Modal
 } from 'react-native';
 
-const {width} = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 
 import {RtcEngine, AgoraView} from 'react-native-agora'
 
@@ -32,7 +32,7 @@ export default class RNAgoraExample extends Component {
             disableVideo: true,
             isHideButtons: false,
             visible: false,
-            selectUid: undefined
+            selectUid: undefined,
         };
     }
 
@@ -46,18 +46,17 @@ export default class RNAgoraExample extends Component {
             swapWidthAndHeight: true
         };
         RtcEngine.init(options);
-
+        RtcEngine.setLocalRenderMode(3);
     }
 
     componentDidMount() {
-
         // 当前版本号
         RtcEngine.getSdkVersion((version) => {
             console.log(version)
         });
 
         //加入房间
-        RtcEngine.joinChannel();
+        RtcEngine.joinChannel(this.props.roomName);
 
         // 启用说话者音量提示
         RtcEngine.enableAudioVolumeIndication(500,3);
@@ -321,7 +320,9 @@ const styles = StyleSheet.create({
         zIndex: 100
     },
     localView: {
-        flex: 1
+        width: width - 10,
+        height: height * 2 / 3,
+        margin: 5
     },
     remoteView: {
         width: (width - 40) / 3,

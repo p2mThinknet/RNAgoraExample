@@ -10,85 +10,132 @@ import {
     StyleSheet,
     Text,
     View,
-    TouchableOpacity
+    TouchableOpacity,
+    DrawerLayoutAndroid,
+    ListView,
+    TouchableHighlight
 } from 'react-native';
 
-import LiveView from './src'
+import ConferenceComponet from './src';
+
 
 export default class App extends Component<{}> {
-
     constructor(props) {
         super(props);
+        this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             showLive: false,
-            err: undefined
+            err: undefined,
+            roomName: undefined,
+            dataSource: this.ds.cloneWithRows([])
         };
     }
 
+    getallconference() {
+        const URL = 'http://192.168.1.192:8080/api/allConferences';
+        return fetch(URL)
+            .then((res) => res.json());
+    }
+
     componentDidMount() {
-        const oneArr = [
-            {id:0, name: 'sam0'},
-            {id:1, name: 'sam1'},
-            {id:2, name: 'sam2'},
-            {id:3, name: 'sam3'},
-            {id:4, name: 'sam4'}
-        ];
-        const twoArr = [
-            {id:0, name: 'sam0'},
-            {id:5, name: 'Max5'},
-            {id:6, name: 'Max6'},
-            {id:7, name: 'Max7'},
-            {id:2, name: 'sam2'}
-        ];
-
-        let mergeObj = {};
-        [...oneArr, ...twoArr].map(v=>{
-            mergeObj[v.id] = v
+        const self = this;
+        this.getallconference().then((res) => {
+            if(res.success) {
+                let allConferances = [];
+                for(let i = 0; i < res.result.length; i++) {
+                    allConferances.push(res.result[i].name);
+                }
+                self.setState({dataSource: this.ds.cloneWithRows(allConferances)});
+            } else {
+                self.setState({dataSource: this.ds.cloneWithRows([])});
+            }
         });
-
-        const mergeArr = Object.values(mergeObj);
-
-        console.log(mergeArr);
     }
 
     handleJoin = () => {
-        this.setState({
-            showLive: true
-        })
+        if(this.state.roomName === undefined) {
+            alert('请选择某一房间号!');
+        } else {
+            this.setState({
+                showLive: true
+            });
+        }
     };
 
     handleCancel = (err) => {
         this.setState({
             showLive: false,
             err
-        })
+        });
     };
+
+    _pressRow(rowID)  {
+        this.setState({roomName: rowID});
+        this.refs['DRAWER'].closeDrawer();
+    };
+
+
+    _renderRow(rowData: string) {
+        return (
+            <View>
+                <TouchableHighlight onPress={this._pressRow.bind(this, rowData)}>
+                    <View>
+                        <Text>{rowData}</Text>
+                    </View>
+                </TouchableHighlight>
+            </View>
+        )
+    }
 
     render() {
         const {showLive, err} = this.state;
+        const navigationView = (
+            <View style={{flex: 1, backgroundColor: '#fff'}}>
+                <ListView
+                    style={styles.listviewContainer}
+                    dataSource={this.state.dataSource}
+                    renderRow={this._renderRow.bind(this)}
+                    renderHeader = {() => <View style={{height: 10, backgroundColor:     '#f5f5f5'}} />}
+                    onEndReached = {() => console.log('')}
+                    renderSeparator = {(sectionID, rowID) =>
+                        <View
+                            style={styles.style_separator}
+                            key={`${sectionID} - ${rowID}`}
+                        />}
+                />
+            </View>
+        );
         if (showLive) {
             return (
-                <LiveView
+                <ConferenceComponet
                     onCancel={this.handleCancel}
+                    roomName={this.state.roomName}
                 />
             )
         } else {
             return (
+            <DrawerLayoutAndroid
+                drawerWidth={150}
+                drawerPosition={DrawerLayoutAndroid.positions.Left}
+                renderNavigationView={() => navigationView}
+                ref={'DRAWER'}>
                 <View style={styles.container}>
-                    {!!err &&
-                    <Text>错误代码 {err}</Text>
-                    }
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={this.handleJoin}
-                    >
-                        <Text style={{color:'#fff'}}>点击进入房间 开始视频</Text>
-                    </TouchableOpacity>
+                {!!err &&
+                <Text>错误代码 {err}</Text>
+                }
+                <TouchableOpacity
+                style={styles.button}
+                onPress={this.handleJoin}
+                >
+                <Text style={{color:'#fff'}}>{this.state.roomName === undefined ? '点击进入房间开始视频' : this.state.roomName}</Text>
+                </TouchableOpacity>
                 </View>
+            </DrawerLayoutAndroid>
             );
         }
     }
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -96,6 +143,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
+    },
+    listviewContainer: {
+        flex: 1,
+        marginTop: 20,
     },
     welcome: {
         fontSize: 20,
