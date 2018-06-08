@@ -131,6 +131,9 @@ export default class App extends Component<{}> {
                     resizeMode='cover'
                     source={require('./images/background_bk.png')}>
                     <View style={styles.container}>
+                        <View  style={styles.title}>
+                            <Text style={styles.titleText}>党务视频会议系统</Text>
+                        </View>
                         <View style={styles.buttonGroup}>
                         {!!err &&
                         <Text>错误代码 {err}</Text>
@@ -204,5 +207,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 20,
         flexDirection:'row'
+    },
+    title: {
+        position: 'absolute',
+        top: 100,
+    },
+    titleText: {
+        fontSize: 28,
+        color: '#ffffff'
     }
 });
