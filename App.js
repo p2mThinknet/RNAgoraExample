@@ -7,6 +7,7 @@
 import React, {Component} from 'react';
 import {
     Platform,
+    ImageBackground,
     StyleSheet,
     Text,
     View,
@@ -63,6 +64,10 @@ export default class App extends Component<{}> {
         }
     };
 
+    handleCreate = () => {
+        alert('敬请期待');
+    };
+
     handleCancel = (err) => {
         this.setState({
             showLive: false,
@@ -116,25 +121,34 @@ export default class App extends Component<{}> {
                 />
             )
         } else {
-            return (
-            <DrawerLayoutAndroid
+            return <DrawerLayoutAndroid
                 drawerWidth={200}
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
                 renderNavigationView={() => navigationView}
                 ref={'DRAWER'}>
-                <View style={styles.container}>
-                {!!err &&
-                <Text>错误代码 {err}</Text>
-                }
-                <TouchableOpacity
-                style={styles.button}
-                onPress={this.handleJoin}
-                >
-                <Text style={{color:'#fff'}}>{this.state.roomName === undefined ? '进入视频会议' : this.state.roomName}</Text>
-                </TouchableOpacity>
-                </View>
+                <ImageBackground
+                    style={ styles.imgBackground }
+                    resizeMode='cover'
+                    source={require('./images/background_bk.png')}>
+                    <View style={styles.container}>
+                        {!!err &&
+                        <Text>错误代码 {err}</Text>
+                        }
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={this.handleJoin}
+                        >
+                            <Text style={{color: '#fff'}}>进入视频会议</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.button}
+                            onPress={this.handleCreate}
+                        >
+                            <Text style={{color: '#fff'}}>创建视频会议</Text>
+                        </TouchableOpacity>
+                    </View>
+                </ImageBackground>
             </DrawerLayoutAndroid>
-            );
         }
     }
 }
@@ -178,5 +192,10 @@ const styles = StyleSheet.create({
         flex: 1,
         height: StyleSheet.hairlineWidth,
         backgroundColor: '#8E8E8E',
+    },
+    imgBackground: {
+        width: '100%',
+        height: '100%',
+        flex: 1
     },
 });
