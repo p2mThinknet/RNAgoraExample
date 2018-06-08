@@ -17,7 +17,8 @@ import {
 } from 'react-native';
 
 import ConferenceComponet from './src';
-
+import Header from './component/head';
+import Footer from './component/footer';
 
 export default class App extends Component<{}> {
     constructor(props) {
@@ -80,7 +81,7 @@ export default class App extends Component<{}> {
             <View>
                 <TouchableHighlight onPress={this._pressRow.bind(this, rowData)}>
                     <View>
-                        <Text>{rowData}</Text>
+                        <Text style={styles.text}>{rowData}</Text>
                     </View>
                 </TouchableHighlight>
             </View>
@@ -95,8 +96,10 @@ export default class App extends Component<{}> {
                     style={styles.listviewContainer}
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
-                    renderHeader = {() => <View style={{height: 10, backgroundColor:     '#f5f5f5'}} />}
+                    renderHeader = {() => <Header />}
+                    renderFooter={() => <Footer />}
                     onEndReached = {() => console.log('')}
+                    enableEmptySections
                     renderSeparator = {(sectionID, rowID) =>
                         <View
                             style={styles.style_separator}
@@ -115,7 +118,7 @@ export default class App extends Component<{}> {
         } else {
             return (
             <DrawerLayoutAndroid
-                drawerWidth={150}
+                drawerWidth={200}
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
                 renderNavigationView={() => navigationView}
                 ref={'DRAWER'}>
@@ -127,7 +130,7 @@ export default class App extends Component<{}> {
                 style={styles.button}
                 onPress={this.handleJoin}
                 >
-                <Text style={{color:'#fff'}}>{this.state.roomName === undefined ? '点击进入房间开始视频' : this.state.roomName}</Text>
+                <Text style={{color:'#fff'}}>{this.state.roomName === undefined ? '进入视频会议' : this.state.roomName}</Text>
                 </TouchableOpacity>
                 </View>
             </DrawerLayoutAndroid>
@@ -166,5 +169,14 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginTop: 10
-    }
+    },
+    text: {
+        marginLeft: 12,
+        fontSize: 16,
+    },
+    style_separator: {
+        flex: 1,
+        height: StyleSheet.hairlineWidth,
+        backgroundColor: '#8E8E8E',
+    },
 });
