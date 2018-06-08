@@ -131,6 +131,7 @@ export default class App extends Component<{}> {
                     resizeMode='cover'
                     source={require('./images/background_bk.png')}>
                     <View style={styles.container}>
+                        <View style={styles.buttonGroup}>
                         {!!err &&
                         <Text>错误代码 {err}</Text>
                         }
@@ -146,6 +147,7 @@ export default class App extends Component<{}> {
                         >
                             <Text style={{color: '#fff'}}>创建视频会议</Text>
                         </TouchableOpacity>
+                        </View>
                     </View>
                 </ImageBackground>
             </DrawerLayoutAndroid>
@@ -159,7 +161,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
     },
     listviewContainer: {
         flex: 1,
@@ -182,7 +183,8 @@ const styles = StyleSheet.create({
         borderRadius:10,
         justifyContent:'center',
         alignItems:'center',
-        marginTop: 10
+        marginTop: 10,
+        marginRight:10
     },
     text: {
         marginLeft: 12,
@@ -198,4 +200,9 @@ const styles = StyleSheet.create({
         height: '100%',
         flex: 1
     },
+    buttonGroup: {
+        position: 'absolute',
+        bottom: 20,
+        flexDirection:'row'
+    }
 });
