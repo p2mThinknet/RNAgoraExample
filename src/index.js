@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     },
     localView: {
         width: width - 10,
-        height: height * 2 / 3,
+        height: height,
         margin: 5
     },
     remoteView: {

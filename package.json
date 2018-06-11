@@ -16,7 +16,9 @@
     "react": "16.0.0",
     "react-native": "0.51.0",
     "react-native-agora": "1.1.0",
-    "react-native-fetch": "^2.0.0"
+    "react-native-dialog": "^4.0.0",
+    "react-native-fetch": "^2.0.0",
+    "react-native-popup-dialog": "^0.11.46"
   },
   "devDependencies": {
     "babel-jest": "22.0.4",

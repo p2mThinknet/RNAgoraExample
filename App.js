@@ -16,6 +16,8 @@ import {
     ListView,
     TouchableHighlight
 } from 'react-native';
+import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import Dialog from "react-native-dialog";
 
 import ConferenceComponet from './src';
 import Header from './component/head';
@@ -29,6 +31,8 @@ export default class App extends Component<{}> {
             showLive: false,
             err: undefined,
             roomName: undefined,
+            dialogVisible: false,
+            conferenceCreatedName: '',
             dataSource: this.ds.cloneWithRows([])
         };
     }
@@ -39,7 +43,7 @@ export default class App extends Component<{}> {
             .then((res) => res.json());
     }
 
-    createConference() {
+    createConference(name) {
         const URL = 'http://192.168.0.65:8080/api/createConference';
         return fetch(URL, {
             method: 'POST',
@@ -48,7 +52,7 @@ export default class App extends Component<{}> {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                name: 'testtest'
+                name
             }),
         }).then((res) => res.json());
     }
@@ -83,12 +87,22 @@ export default class App extends Component<{}> {
     };
 
     handleCreate = () => {
+        this.setState({ dialogVisible: true });
+    };
+
+    handleCreateCancle = () => {
+        this.setState({ dialogVisible: false });
+    };
+
+    handleCreateConfirm = () => {
+        this.setState({ dialogVisible: false });
         const self = this;
-        self.createConference().then((res) => {
+        self.createConference(this.state.conferenceCreatedName).then((res) => {
             if(res.success) {
-                alert('创建视频会议成功');
+                self.setState({roomName: this.state.conferenceCreatedName});
+                this.handleJoin()
             } else {
-                alert('创建视频会议失败');
+                alert('创建视频会议失败!');
             }
         })
     };
@@ -186,6 +200,16 @@ export default class App extends Component<{}> {
                         </View>
                     </View>
                 </ImageBackground>
+                <Dialog.Container visible={this.state.dialogVisible}>
+                    <Dialog.Title>创建视频会议</Dialog.Title>
+                    <Dialog.Description>
+                        请填写本次视频会议名称
+                    </Dialog.Description>
+                    <Dialog.Input
+                     onChangeText={(text) => this.setState({conferenceCreatedName: text})}/>
+                    <Dialog.Button label="取消" onPress={this.handleCreateCancle} />
+                    <Dialog.Button label="确定" onPress={this.handleCreateConfirm} />
+                </Dialog.Container>
             </DrawerLayoutAndroid>
         }
     }
