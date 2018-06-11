@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, {Component} from 'react';
+import {View, Text, StyleSheet, TouchableOpacity, ListView} from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -20,12 +20,31 @@ const styles = StyleSheet.create({
     },
 });
 
-const Footer = (props) => (
-    <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={() => console.log('load more')}>
-            <Text style={styles.text}>Load More</Text>
-        </TouchableOpacity>
-    </View>
-);
+export default class Footer extends Component<props> {
+    constructor(props) {
+        super(props);
+    }
 
-export default Footer;
+    handleGetAllConferences() {
+        this.props.getAllConferences();
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <TouchableOpacity style={styles.button} onPress={this.handleGetAllConferences.bind(this)}>
+                    <Text style={styles.text}>刷新会议列表</Text>
+                </TouchableOpacity>
+            </View>
+        )
+    }
+}
+// const Footer = (props) => (
+//     <View style={styles.container}>
+//         <TouchableOpacity style={styles.button} onPress={() => console.log('load more')}>
+//             <Text style={styles.text}>刷新会议列表</Text>
+//         </TouchableOpacity>
+//     </View>
+// );
+
+// export default Footer;

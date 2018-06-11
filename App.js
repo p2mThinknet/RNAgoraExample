@@ -33,15 +33,33 @@ export default class App extends Component<{}> {
         };
     }
 
-    getallconference() {
-        const URL = 'http://192.168.1.192:8080/api/allConferences';
+    getAllConference() {
+        const URL = 'http://192.168.0.65:8080/api/allConferences';
         return fetch(URL)
             .then((res) => res.json());
     }
 
+    createConference() {
+        const URL = 'http://192.168.0.65:8080/api/createConference';
+        return fetch(URL, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                name: 'testtest'
+            }),
+        }).then((res) => res.json());
+    }
+
     componentDidMount() {
+        this.fetchAllConferences();
+    }
+
+    fetchAllConferences() {
         const self = this;
-        this.getallconference().then((res) => {
+        this.getAllConference().then((res) => {
             if(res.success) {
                 let allConferances = [];
                 for(let i = 0; i < res.result.length; i++) {
@@ -65,7 +83,14 @@ export default class App extends Component<{}> {
     };
 
     handleCreate = () => {
-        alert('敬请期待');
+        const self = this;
+        self.createConference().then((res) => {
+            if(res.success) {
+                alert('创建视频会议成功');
+            } else {
+                alert('创建视频会议失败');
+            }
+        })
     };
 
     handleCancel = (err) => {
@@ -80,6 +105,13 @@ export default class App extends Component<{}> {
         this.refs['DRAWER'].closeDrawer();
     };
 
+    drawerOpen = () => {
+        this.fetchAllConferences();
+    };
+
+    getAllConferences = () => {
+        this.fetchAllConferences();
+    };
 
     _renderRow(rowData: string) {
         return (
@@ -102,7 +134,7 @@ export default class App extends Component<{}> {
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow.bind(this)}
                     renderHeader = {() => <Header />}
-                    renderFooter={() => <Footer />}
+                    renderFooter={() => <Footer getAllConferences={this.getAllConferences.bind(this)}/>}
                     onEndReached = {() => console.log('')}
                     enableEmptySections
                     renderSeparator = {(sectionID, rowID) =>
@@ -124,6 +156,7 @@ export default class App extends Component<{}> {
             return <DrawerLayoutAndroid
                 drawerWidth={200}
                 drawerPosition={DrawerLayoutAndroid.positions.Left}
+                onDrawerOpen={this.drawerOpen}
                 renderNavigationView={() => navigationView}
                 ref={'DRAWER'}>
                 <ImageBackground
