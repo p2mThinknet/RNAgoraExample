@@ -229,12 +229,11 @@ export default class RNAgoraExample extends Component {
                         <View style={styles.bottomView}>
                             <OperateButton
                                 onPress={this.handlerChangeCameraTorch}
-                                imgStyle={{width: 40, height: 40}}
-                                source={isCameraTorch ? require('../images/闪光灯打开.png') : require('../images/闪光灯关闭.png')}
+                                source={isCameraTorch ? require('../images/flash_on.png') : require('../images/flash_off.png')}
                             />
                             <OperateButton
                                 onPress={this.handlerChangeVideo}
-                                source={disableVideo ? require('../images/摄像头打开.png') : require('../images/摄像头关闭.png')}
+                                source={disableVideo ? require('../images/camera_on.png') : require('../images/camera_off.png')}
                             />
                         </View>
                         <View style={styles.bottomView}>
