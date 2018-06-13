@@ -3544,6 +3544,10 @@ react-native-dialog@^4.0.0:
     prop-types "^15.6.0"
     react-native-modal "^5.0.0"
 
+react-native-drawer-layout@^2.0.0:
+  version "2.0.0"
+  resolved "http://registry.npm.taobao.org/react-native-drawer-layout/download/react-native-drawer-layout-2.0.0.tgz#8ce1e4027bd3f3a09045afdb46080e18346be232"
+
 react-native-fetch@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/react-native-fetch/download/react-native-fetch-2.0.0.tgz#7bae253e4d1c17279c8f09d008c728c465bd14a4"

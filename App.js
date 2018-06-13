@@ -16,7 +16,7 @@ import {
     ListView,
     TouchableHighlight
 } from 'react-native';
-import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
+import DrawerLayout from 'react-native-drawer-layout';
 import Dialog from "react-native-dialog";
 
 import ConferenceComponet from './src';
@@ -167,9 +167,9 @@ export default class App extends Component<{}> {
                 />
             )
         } else {
-            return <DrawerLayoutAndroid
+            return <DrawerLayout
                 drawerWidth={200}
-                drawerPosition={DrawerLayoutAndroid.positions.Left}
+                drawerPosition={DrawerLayout.positions.Left}
                 onDrawerOpen={this.drawerOpen}
                 renderNavigationView={() => navigationView}
                 ref={'DRAWER'}>
@@ -210,7 +210,7 @@ export default class App extends Component<{}> {
                     <Dialog.Button label="取消" onPress={this.handleCreateCancle} />
                     <Dialog.Button label="确定" onPress={this.handleCreateConfirm} />
                 </Dialog.Container>
-            </DrawerLayoutAndroid>
+            </DrawerLayout>
         }
     }
 }
