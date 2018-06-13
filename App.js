@@ -38,13 +38,13 @@ export default class App extends Component<{}> {
     }
 
     getAllConference() {
-        const URL = 'http://192.168.0.65:8888/api/allConferences';
+        const URL = 'http://114.215.16.218:4060/api/allConferences';
         return fetch(URL)
             .then((res) => res.json());
     }
 
     createConference(name) {
-        const URL = 'http://192.168.0.65:8888/api/createConference';
+        const URL = 'http://114.215.16.218:4060/api/createConference';
         return fetch(URL, {
             method: 'POST',
             headers: {
