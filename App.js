@@ -27,6 +27,8 @@ export default class App extends Component<{}> {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+        // this.serverAdd = '114.215.16.218:4060';
+        this.serverAdd = '192.168.1.192:8080';
         this.state = {
             showLive: false,
             err: undefined,
@@ -38,13 +40,13 @@ export default class App extends Component<{}> {
     }
 
     getAllConference() {
-        const URL = 'http://114.215.16.218:4060/api/allConferences';
+        const URL = `http://${this.serverAdd}/api/allConferences`;
         return fetch(URL)
             .then((res) => res.json());
     }
 
     createConference(name) {
-        const URL = 'http://114.215.16.218:4060/api/createConference';
+        const URL = `http://${this.serverAdd}/api/createConference`;
         return fetch(URL, {
             method: 'POST',
             headers: {
