@@ -25,7 +25,7 @@ export default class RNAgoraExample extends Component {
 
     constructor(props) {
         super(props);
-        this.ws = new WebSocket("ws://192.168.1.192:8181");
+        this.ws = new WebSocket("ws://114.215.16.218:4061");
         this.state = {
             remotes: [],
             isJoinSuccess: false,

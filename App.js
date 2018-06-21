@@ -27,8 +27,8 @@ export default class App extends Component<{}> {
     constructor(props) {
         super(props);
         this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-        // this.serverAdd = '114.215.16.218:4060';
-        this.serverAdd = '192.168.1.192:8080';
+        this.serverAdd = '114.215.16.218:4060';
+        // this.serverAdd = '192.168.1.192:4060';
         this.state = {
             showLive: false,
             err: undefined,
