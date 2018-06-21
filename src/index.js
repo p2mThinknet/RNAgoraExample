@@ -214,6 +214,7 @@ export default class RNAgoraExample extends Component {
     onPressSendChat = () => {
         this.ws.send(`---chat:${this.state.localUid}:${this.state.chatText}`);
         this.setState({chatText: ''});
+        this.textInput.clear();
     };
 
     onPressVideo = (uid) => {
@@ -330,12 +331,13 @@ export default class RNAgoraExample extends Component {
                 <TextInput
                     style={{height: 40, flexGrow: 20}}
                     placeholder="输入聊天内容!"
+                    ref={input => { this.textInput = input }}
                     onChangeText={(text) => this.setState({chatText: text})}
                 />
                 <Button
                     onPress={this.onPressSendChat}
                     style={{height: 40}}
-                    title="Learn More"
+                    title="发送"
                     color="#841584"
                 />
             </View>
