@@ -29,7 +29,7 @@ export default class RNAgoraExample extends Component {
         this.state = {
             remotes: [],
             isJoinSuccess: false,
-            isSpeaker: true,
+            isSpeaker: false,
             isMute: false,
             isCameraTorch: false,
             disableVideo: true,
@@ -69,7 +69,7 @@ export default class RNAgoraExample extends Component {
                         this.setState({
                             isSpeaker: commingMessage[0] === 'true'
                         }, () => {
-                            RtcEngine.setDefaultAudioRouteToSpeakerphone(this.state.isSpeaker);
+                            RtcEngine.muteLocalAudioStream(this.state.isSpeaker);
                         })
                     } else if(e.data.includes('muteAllRemote')) {
                         this.setState({
@@ -185,7 +185,7 @@ export default class RNAgoraExample extends Component {
         this.setState({
             isSpeaker: !this.state.isSpeaker
         }, () => {
-            RtcEngine.setDefaultAudioRouteToSpeakerphone(this.state.isSpeaker);
+            RtcEngine.muteLocalAudioStream(this.state.isSpeaker);
         });
     };
 
@@ -290,7 +290,7 @@ export default class RNAgoraExample extends Component {
                             <View style={styles.bottomView}>
                                 <OperateButton
                                     onPress={this.handlerMuteAllRemoteAudioStreams}
-                                    source={isMute ? require('../images/icon_muted.png') : require('../images/btn_mute.png')}
+                                    source={isMute ? require('../images/icon_speaker.png') : require('../images/btn_speaker.png')}
                                 />
                                 <OperateButton
                                     onPress={this.handlerSwitchCamera}
@@ -298,7 +298,7 @@ export default class RNAgoraExample extends Component {
                                 />
                                 <OperateButton
                                     onPress={this.handlerSetEnableSpeakerphone}
-                                    source={!isSpeaker ? require('../images/icon_speaker.png') : require('../images/btn_speaker.png')}
+                                    source={isSpeaker ? require('../images/icon_muted.png') : require('../images/btn_mute.png')}
                                 />
                             </View>
                         </View>
