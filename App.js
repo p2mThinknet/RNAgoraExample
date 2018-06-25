@@ -38,6 +38,7 @@ export default class App extends Component<{}> {
             conferenceCreatedName: '',
             dataSource: this.ds.cloneWithRows([]),
             signInVideoConference: false,
+            signSuccess: false
         };
     }
 
@@ -73,7 +74,11 @@ export default class App extends Component<{}> {
                 for(let i = 0; i < res.result.length; i++) {
                     allConferances.push(res.result[i].name);
                 }
-                self.setState({dataSource: this.ds.cloneWithRows(allConferances)});
+                if(this.state.signSuccess) {
+                    self.setState({dataSource: this.ds.cloneWithRows(allConferances)});
+                } else {
+                    self.setState({dataSource: this.ds.cloneWithRows([])});
+                }
             } else {
                 self.setState({dataSource: this.ds.cloneWithRows([])});
             }
