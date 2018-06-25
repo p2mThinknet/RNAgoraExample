@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Slider, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Slider, Dimensions, ImageBackground } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
 const landmarkSize = 4;
@@ -227,10 +227,8 @@ export default class FaceDetectSignIn extends React.Component {
                 style={[
                     styles.face,
                     {
-                        width: deviceWidth - 100,
-                        height: deviceHeight - 300,
-                        left: 50,
-                        top: 100,
+                        width: deviceWidth,
+                        height: deviceHeight,
                     },
                 ]}
             >
@@ -299,6 +297,14 @@ export default class FaceDetectSignIn extends React.Component {
                 permissionDialogTitle={'Permission to use camera'}
                 permissionDialogMessage={'We need your permission to use your camera phone'}
             >
+
+                {this.renderFaceScope()}
+
+                <ImageBackground
+                    style={ styles.imgBackground }
+                    resizeMode='cover'
+                    source={require('../images/signInBk.png')}>
+                </ImageBackground>
                 <View
                     style={{
                         flex: 0.5,
@@ -329,6 +335,7 @@ export default class FaceDetectSignIn extends React.Component {
                         backgroundColor: 'transparent',
                         flexDirection: 'row',
                         alignSelf: 'flex-end',
+                        zIndex:10
                     }}
                 >
                     <TouchableOpacity
@@ -362,7 +369,6 @@ export default class FaceDetectSignIn extends React.Component {
                         <Text style={styles.flipText}> Gallery </Text>
                     </TouchableOpacity>
                 </View>
-                {this.renderFaceScope()}
                 {this.renderLandmarks()}
             </RNCamera>
         );
@@ -428,12 +434,15 @@ const styles = StyleSheet.create({
     },
     face: {
         padding: 10,
-        borderWidth: 2,
-        borderRadius: 2,
+        // borderWidth: 2,
+        // borderRadius: 2,
+        borderWidth: 0,
         position: 'absolute',
         borderColor: '#FFD700',
         justifyContent: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        width: '100%',
+        height: '100%',
     },
     landmark: {
         width: landmarkSize,
@@ -450,5 +459,11 @@ const styles = StyleSheet.create({
     },
     row: {
         flexDirection: 'row',
+    },
+    imgBackground: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        flex: 1
     },
 });
