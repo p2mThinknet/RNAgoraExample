@@ -21,7 +21,7 @@ const {width, height} = Dimensions.get('window');
 
 import {RtcEngine, AgoraView} from 'react-native-agora'
 
-export default class RNAgoraExample extends Component {
+export default class VideoComference extends Component {
 
     constructor(props) {
         super(props);

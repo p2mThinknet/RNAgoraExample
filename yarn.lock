@@ -3537,6 +3537,13 @@ react-native-animatable@^1.2.4:
   dependencies:
     prop-types "^15.5.10"
 
+"react-native-camera@git+https://git@github.com/react-native-community/react-native-camera":
+  version "1.1.5"
+  resolved "git+https://git@github.com/react-native-community/react-native-camera#cb62502a47c1b00a251a1aade2f6f3321c4e8988"
+  dependencies:
+    lodash "^4.17.4"
+    prop-types "^15.5.10"
+
 react-native-dialog@^4.0.0:
   version "4.0.0"
   resolved "http://registry.npm.taobao.org/react-native-dialog/download/react-native-dialog-4.0.0.tgz#17c17f83dbe2312716d1eb06c0a79be5106906be"
