@@ -217,7 +217,7 @@ export default class FaceDetectSignIn extends React.Component {
             const eyeBlink = await this._checkEyesBlink({faces});
             if(eyeBlink) {
                 //倒数三秒拍照
-                const data = await this.camera.takePictureAsync({quality: 0.5, base64: true});
+                const data = await this.camera.takePictureAsync({quality: 0.5, base64: true, width: 480});
                 this.setState({
                     wanningText: '正在检验，请稍候',
                     isFaceDetected: true,
