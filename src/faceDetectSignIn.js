@@ -126,6 +126,7 @@ export default class FaceDetectSignIn extends React.Component {
             });
         } else {
             console.log('---------------------------------' + JSON.stringify(faces[0]));
+            console.log('*************************************************************');
             // 最起码得有8个生物特征落入取景框内
             if(!faces[0].hasOwnProperty('leftEyePosition') || !faces[0].hasOwnProperty('rightEyePosition') ||
                 !faces[0].hasOwnProperty('leftCheekPosition') || !faces[0].hasOwnProperty('rightCheekPosition') ||
@@ -294,6 +295,7 @@ export default class FaceDetectSignIn extends React.Component {
                 onFacesDetected={!this.state.isFaceDetected ? this.onFacesDetected : null}
                 onFaceDetectionError={this.onFaceDetectionError}
                 focusDepth={this.state.depth}
+                faceDetectionClassifications={RNCamera.Constants.FaceDetection.Classifications.all}
                 permissionDialogTitle={'Permission to use camera'}
                 permissionDialogMessage={'We need your permission to use your camera phone'}
             >
@@ -440,7 +442,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         borderColor: '#FFD700',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(1, 1, 1, 0.5)',
         width: '100%',
         height: '100%',
     },
