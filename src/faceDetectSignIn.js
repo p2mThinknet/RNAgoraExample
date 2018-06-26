@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Slider, Dimensions, ImageBackground } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 
-const landmarkSize = 4;
+const landmarkSize = 2;
 
 const deviceHeight = Dimensions.get("window").height;
 
