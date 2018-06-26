@@ -6,13 +6,11 @@
 
 import React, {Component} from 'react';
 import {
-    Platform,
     ImageBackground,
     StyleSheet,
     Text,
     View,
     TouchableOpacity,
-    DrawerLayoutAndroid,
     ListView,
     TouchableHighlight
 } from 'react-native';
@@ -38,7 +36,8 @@ export default class App extends Component<{}> {
             conferenceCreatedName: '',
             dataSource: this.ds.cloneWithRows([]),
             signInVideoConference: false,
-            signSuccess: false
+            signSuccess: false,
+            userName: ''
         };
     }
 
@@ -142,6 +141,7 @@ export default class App extends Component<{}> {
             signInVideoConference: false,
             signSuccess: true,
             signInMessage: `欢迎你!${userName}`,
+            userName
         })
     };
 
@@ -237,6 +237,7 @@ export default class App extends Component<{}> {
                     <VideoComference
                         onCancel={this.handleCancel}
                         roomName={this.state.roomName}
+                        userName={this.state.userName}
                     />
                 )
             } else {

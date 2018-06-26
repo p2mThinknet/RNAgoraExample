@@ -212,7 +212,8 @@ export default class VideoComference extends Component {
     };
 
     onPressSendChat = () => {
-        this.ws.send(`---chat:${this.state.localUid}:${this.state.chatText}`);
+        //this.ws.send(`---chat:${this.state.localUid}:${this.state.chatText}`);
+        this.ws.send(`---chat:${this.props.userName}:${this.state.chatText}`);
         this.setState({chatText: ''});
         this.textInput.clear();
     };
