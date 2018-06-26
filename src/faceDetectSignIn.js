@@ -35,14 +35,8 @@ export default class FaceDetectSignIn extends React.Component {
         this.CLOSE_THRESHOLD = 0.2;
     }
 
-    toggleView() {
+    toggleCancel() {
         this.props.onCancel('');
-    }
-
-    setFocusDepth(depth) {
-        this.setState({
-            depth,
-        });
     }
 
     createFaceImage(data) {
@@ -338,7 +332,7 @@ export default class FaceDetectSignIn extends React.Component {
                         alignItems: 'center',
                         width: 100
                     }]}
-                    onPress={this.toggleView.bind(this)}
+                    onPress={this.toggleCancel.bind(this)}
                 >
                     <Text style={styles.flipText}> 取消 </Text>
                 </TouchableOpacity>
