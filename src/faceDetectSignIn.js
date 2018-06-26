@@ -36,25 +36,7 @@ export default class FaceDetectSignIn extends React.Component {
     }
 
     toggleView() {
-        this.props.onCancel('jinxinx');
-    }
-
-    toggleFocus() {
-        this.setState({
-            autoFocus: this.state.autoFocus === 'on' ? 'off' : 'on',
-        });
-    }
-
-    zoomOut() {
-        this.setState({
-            zoom: this.state.zoom - 0.1 < 0 ? 0 : this.state.zoom - 0.1,
-        });
-    }
-
-    zoomIn() {
-        this.setState({
-            zoom: this.state.zoom + 0.1 > 1 ? 1 : this.state.zoom + 0.1,
-        });
+        this.props.onCancel('');
     }
 
     setFocusDepth(depth) {
@@ -62,12 +44,6 @@ export default class FaceDetectSignIn extends React.Component {
             depth,
         });
     }
-
-    reVerification = async function() {
-        this.setState({
-            isFaceDetected: false,
-        });
-    };
 
     createFaceImage(data) {
         const URL = `http://114.215.16.218:4060/api/uploadFaceDetectImage`;
@@ -311,103 +287,64 @@ export default class FaceDetectSignIn extends React.Component {
     }
 
     renderCamera() {
-        return (
-            <RNCamera
-                ref={ref => {
-                    this.camera = ref;
-                }}
+        return <RNCamera
+            ref={ref => {
+                this.camera = ref;
+            }}
+            style={{
+                flex: 1,
+            }}
+            type={this.state.type}
+            flashMode={this.state.flash}
+            // autoFocus={'on'}
+            // zoom={0}
+            whiteBalance={this.state.whiteBalance}
+            ratio={this.state.ratio}
+            faceDetectionLandmarks={RNCamera.Constants.FaceDetection.Landmarks.all}
+            onFacesDetected={!this.state.isFaceDetected ? this.onFacesDetected : null}
+            onFaceDetectionError={this.onFaceDetectionError}
+            focusDepth={this.state.depth}
+            faceDetectionClassifications={RNCamera.Constants.FaceDetection.Classifications.all}
+            permissionDialogTitle={'Permission to use camera'}
+            permissionDialogMessage={'We need your permission to use your camera phone'}
+        >
+
+            {this.renderFaceScope()}
+
+            <ImageBackground
+                style={styles.imgBackground}
+                resizeMode='cover'
+                source={require('../images/signInBk.png')}>
+            </ImageBackground>
+            <View
                 style={{
-                    flex: 1,
+                    flex: 0.5,
+                    backgroundColor: 'transparent',
+                    flexDirection: 'row',
+                    justifyContent: 'space-around',
                 }}
-                type={this.state.type}
-                flashMode={this.state.flash}
-                autoFocus={this.state.autoFocus}
-                zoom={this.state.zoom}
-                whiteBalance={this.state.whiteBalance}
-                ratio={this.state.ratio}
-                faceDetectionLandmarks={RNCamera.Constants.FaceDetection.Landmarks.all}
-                onFacesDetected={!this.state.isFaceDetected ? this.onFacesDetected : null}
-                onFaceDetectionError={this.onFaceDetectionError}
-                focusDepth={this.state.depth}
-                faceDetectionClassifications={RNCamera.Constants.FaceDetection.Classifications.all}
-                permissionDialogTitle={'Permission to use camera'}
-                permissionDialogMessage={'We need your permission to use your camera phone'}
             >
-
-                {this.renderFaceScope()}
-
-                <ImageBackground
-                    style={ styles.imgBackground }
-                    resizeMode='cover'
-                    source={require('../images/signInBk.png')}>
-                </ImageBackground>
-                <View
-                    style={{
-                        flex: 0.5,
-                        backgroundColor: 'transparent',
-                        flexDirection: 'row',
-                        justifyContent: 'space-around',
-                    }}
+            </View>
+            <View style={{
+                position: 'absolute',
+                bottom: 20,
+                justifyContent: 'center',
+                width: '100%',
+                alignItems: 'center'
+            }}>
+                <TouchableOpacity
+                    style={[styles.flipButton, styles.galleryButton, {
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: 100
+                    }]}
+                    onPress={this.toggleView.bind(this)}
                 >
-                </View>
-                <View
-                    style={{
-                        flex: 0.4,
-                        backgroundColor: 'transparent',
-                        flexDirection: 'row',
-                        alignSelf: 'flex-end',
-                    }}
-                >
-                    <Slider
-                        style={{ width: 150, marginTop: 15, alignSelf: 'flex-end' }}
-                        onValueChange={this.setFocusDepth.bind(this)}
-                        step={0.1}
-                        disabled={this.state.autoFocus === 'on'}
-                    />
-                </View>
-                <View
-                    style={{
-                        flex: 0.1,
-                        backgroundColor: 'transparent',
-                        flexDirection: 'row',
-                        alignSelf: 'flex-end',
-                        zIndex:10
-                    }}
-                >
-                    <TouchableOpacity
-                        style={[styles.flipButton, { flex: 0.1, alignSelf: 'flex-end' }]}
-                        onPress={this.zoomIn.bind(this)}
-                    >
-                        <Text style={styles.flipText}> + </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.flipButton, { flex: 0.1, alignSelf: 'flex-end' }]}
-                        onPress={this.zoomOut.bind(this)}
-                    >
-                        <Text style={styles.flipText}> - </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.flipButton, { flex: 0.25, alignSelf: 'flex-end' }]}
-                        onPress={this.toggleFocus.bind(this)}
-                    >
-                        <Text style={styles.flipText}> AF : {this.state.autoFocus} </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.flipButton, styles.picButton, { flex: 0.3, alignSelf: 'flex-end' }]}
-                        onPress={this.reVerification.bind(this)}
-                    >
-                        <Text style={styles.flipText}> SNAP </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        style={[styles.flipButton, styles.galleryButton, { flex: 0.25, alignSelf: 'flex-end' }]}
-                        onPress={this.toggleView.bind(this)}
-                    >
-                        <Text style={styles.flipText}> Gallery </Text>
-                    </TouchableOpacity>
-                </View>
-                {this.renderLandmarks()}
-            </RNCamera>
-        );
+                    <Text style={styles.flipText}> 取消 </Text>
+                </TouchableOpacity>
+            </View>
+            {this.renderLandmarks()}
+        </RNCamera>;
     }
 
     render() {
@@ -418,7 +355,7 @@ export default class FaceDetectSignIn extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 10,
+        //paddingTop: 10,
         backgroundColor: '#000',
     },
     navigation: {
@@ -470,13 +407,13 @@ const styles = StyleSheet.create({
     },
     face: {
         padding: 10,
-        borderWidth: 2,
-        borderRadius: 2,
+        //borderWidth: 2,
+        //borderRadius: 2,
         //borderWidth: 0,
         position: 'absolute',
         borderColor: '#FFD700',
         justifyContent: 'center',
-        backgroundColor: 'rgba(1, 1, 1, 0.5)',
+        backgroundColor: 'transparent',
         width: '100%',
         height: '100%',
     },
